@@ -251,11 +251,10 @@
               },
               "/tmp/deploy_code" : {
                 "content" : { "Fn::Join" : ["", [
-                  "cd  /var/www/html \n",
                   "git init . \n",
                   "git remote add origin ", { "Ref" : "GitRepo" }, "\n",
                   "git fetch \n",
-                  "git checkout -b aws-tenplate-param ", { "Ref" : "GitCommit" }, "\n"
+                  "git checkout ", { "Ref" : "GitCommit" }, "\n"
                 ]]},
                 "mode"  : "000500",
                 "owner" : "root",
@@ -309,7 +308,8 @@
               },
               "03_deploy_code" : {
                 "command" : "/tmp/deploy_code",
-                "test" : { "Fn::Join" : ["", ["$(ls /var/www/html/index.php", "' >/dev/null 2>&1 </dev/null); (( $? != 0 ))"]]}
+                "cwd" : "/var/www/html",
+                "test" : "test -e /var/www/html/index.php"
               }
             }
           }
