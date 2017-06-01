@@ -1,8 +1,8 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
-  
-  "Description" : "AWS CloudFormation Sample Template LAMP_Single_Instance: Create a LAMP stack using a single EC2 instance and a local MySQL database for storage. This template demonstrates using the AWS CloudFormation bootstrap scripts to install the packages and files necessary to deploy the Apache web server, PHP and MySQL at instance launch time. **WARNING** This template creates an Amazon EC2 instance. You will be billed for the AWS resources used if you create a stack from this template.",
-  
+
+  "Description" : "AWS CloudFormation Template demonstrating the use of bootstrap scripts to install the packages and files necessary to deploy the Apache web server, PHP and pull PHP application code from a Git repository.",
+
   "Parameters" : {
       
     "KeyName": {
@@ -251,7 +251,8 @@
             "commands" : {
               "deploy_code_www" : {
                 "command" : "/tmp/deploy_code > /tmp/deploy_code_to_www.trace",
-                "cwd" : "/var/www/html"
+                "cwd" : "/var/www/html",
+                "test" : "test ! -e /var/www/html/index.php"
               }
             }
           }
