@@ -9,7 +9,19 @@
       "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instance",
       "Type": "AWS::EC2::KeyPair::KeyName",
       "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
-    },    
+    },
+
+    "GitRepo": {
+      "Description" : "URL of git repository",
+      "Type": "String",
+      "ConstraintDescription" : "must be a valid public git repository url"
+    },
+
+    "GitCommit": {
+      "Description" : "commit hash that should be checkout and deployed",
+      "Type": "String",
+      "ConstraintDescription" : "valid commit hash in given git repo"
+    },
 
     "DBName": {
       "Default": "MyDatabase",
@@ -217,6 +229,7 @@
           "Install" : {
             "packages" : {
               "yum" : {
+                "git"        : [],
                 "mysql"        : [],
                 "mysql-server" : [],
                 "mysql-libs"   : [],
@@ -398,6 +411,10 @@
     "WebsiteURL" : {
       "Description" : "URL for newly created LAMP stack",
       "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServerInstance", "PublicDnsName" ]}]] }
+    },
+    "DNSName" : {
+      "Description" : "EC2 instance's public DNS name",
+      "Value" : { "Fn::GetAtt" : [ "WebServerInstance", "PublicDnsName" ]}
     }
   }
 }
